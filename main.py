@@ -4,6 +4,12 @@ from flask import Flask, request, jsonify, send_file
 app = Flask(__name__)
 
 
+# New Hello World endpoint
+@app.route('/', methods=['GET'])
+def hello_world():
+    return "Hello, World!,This service is working as expected"
+
+
 @app.route('/download', methods=['GET'])
 def download():
     song_name = request.args.get('song_name')
@@ -15,7 +21,7 @@ def download():
     # Configure yt-dlp options
     ydl_opts = {
         'format': 'bestvideo+bestaudio/best' if download_type == 'video' else 'bestaudio/best',
-        # 'ffmpeg_location': r"C:\Users\wayne\Downloads\ffmpeg-2024-08-15-git-1f801dfdb5-essentials_build\ffmpeg-2024-08-15-git-1f801dfdb5-essentials_build\bin",
+        'ffmpeg_location': r"/home/ecs-assist-user/youtube_downloader/ffmpeg/bin",  # Adjust this path if needed
         'outtmpl': '%(title)s.%(ext)s',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -40,4 +46,4 @@ def download():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
